@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start Here · Rob</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23c72027'/%3E%3Cpath d='M8 22V10h3l5 8V10h3v12h-3l-5-8v8z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #cccccc;
+    --bg-card: #ffffff;
+    --bg-soft: #bdbdbd;
+    --text: #242424;
+    --text-2: #4a4a4a;
+    --text-3: #666666;
+    --accent: #c72027;
+    --accent-hover: #9c181d;
+    --accent-soft: #f3d1d3;
+    --border: #a8a8a8;
+    --border-light: #d0d0d0;
+    --green: #2d7d34;
+    --green-soft: #d4e8d5;
+    --amber: #8a6d00;
+    --amber-soft: #ede1be;
+    --red: #b04438;
+    --red-soft: #f3d1d3;
+    --gray: #555555;
+    --gray-soft: #d9d9d9;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.08);
+    --shadow: 0 2px 8px rgba(0,0,0,.10);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,.12);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  .hero {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 40px; gap: 24px; flex-wrap: wrap;
+  }
+  .hero-left h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 56px; line-height: 1; letter-spacing: -0.03em;
+    font-weight: 500; margin-bottom: 8px;
+  }
+  .hero-left h1 .accent { color: var(--accent); font-style: italic; }
+  .hero-left .sub { color: var(--text-2); font-size: 15px; }
+  .hero-right { text-align: right; color: var(--text-3); font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+  .hero-right .last-session { font-size: 11px; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .section { margin-bottom: 40px; }
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); gap: 12px; flex-wrap: wrap;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500; letter-spacing: -0.01em;
+  }
+  .section-head .meta {
+    font-size: 12px; color: var(--text-3); font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  /* PRIORITIES */
+  .priorities {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; min-height: 140px;
+  }
+  @media (max-width: 720px) {
+    .priorities { grid-template-columns: 1fr; }
+    .hero-left h1 { font-size: 40px; }
+  }
+  .priority {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; box-shadow: var(--shadow-sm); position: relative;
+    transition: border-color 0.15s, box-shadow 0.15s; cursor: grab;
+    display: flex; flex-direction: column; gap: 8px; min-height: 140px;
+  }
+  .priority:hover { box-shadow: var(--shadow); border-color: var(--accent-soft); }
+  .priority.dragging { opacity: 0.4; cursor: grabbing; }
+  .priority.drag-over { border-color: var(--accent); border-style: dashed; background: var(--accent-soft); }
+  .priority .num {
+    font-family: 'Fraunces', Georgia, serif; font-size: 36px; font-weight: 500;
+    line-height: 1; color: var(--accent); font-style: italic;
+  }
+  .priority .text {
+    font-size: 15px; line-height: 1.45; outline: none; flex: 1; min-height: 50px; color: var(--text);
+  }
+  .priority .text:empty:before {
+    content: attr(data-placeholder); color: var(--text-3); font-style: italic;
+  }
+  .priority .text:focus {
+    background: var(--accent-soft); border-radius: 6px; padding: 4px 8px; margin: -4px -8px;
+  }
+  .priority .actions {
+    display: flex; gap: 6px; margin-top: 4px; opacity: 0; transition: opacity 0.15s;
+  }
+  .priority:hover .actions { opacity: 1; }
+  .btn-icon {
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 10px; font-size: 11px; color: var(--text-2); cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; text-transform: uppercase;
+    letter-spacing: 0.06em; transition: all 0.15s;
+  }
+  .btn-icon:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+  .btn-icon.complete:hover { background: var(--green-soft); color: var(--green); border-color: var(--green); }
+
+  /* BACKLOG */
+  .backlog-controls { display: flex; gap: 8px; align-items: center; }
+  .add-input {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 14px; font-family: 'Inter', sans-serif; font-size: 13px;
+    color: var(--text); width: 280px; transition: border-color 0.15s;
+  }
+  .add-input:focus { outline: none; border-color: var(--accent); }
+  .add-btn {
+    background: var(--text); color: #ffffff; border: none; border-radius: 8px;
+    padding: 8px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; transition: background 0.15s;
+  }
+  .add-btn:hover { background: var(--accent); }
+  .backlog {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px; min-height: 80px; box-shadow: var(--shadow-sm);
+  }
+  .backlog.drag-over { background: var(--accent-soft); border-color: var(--accent); border-style: dashed; }
+  .backlog-empty {
+    text-align: center; padding: 24px; color: var(--text-3); font-style: italic; font-size: 13px;
+  }
+  .backlog-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px;
+    background: var(--bg-card); border: 1px solid transparent; cursor: grab;
+    transition: background 0.1s; margin: 2px;
+  }
+  .backlog-item:hover { background: var(--bg-soft); border-color: var(--border-light); }
+  .backlog-item.dragging { opacity: 0.4; cursor: grabbing; }
+  .backlog-item.drag-over-top { border-top: 2px solid var(--accent); }
+  .backlog-item.drag-over-bottom { border-bottom: 2px solid var(--accent); }
+  .backlog-item .handle {
+    color: var(--text-3); font-size: 14px; cursor: grab; user-select: none; padding: 4px; line-height: 1;
+  }
+  .backlog-item .item-text {
+    flex: 1; font-size: 14px; color: var(--text); outline: none;
+    padding: 2px 4px; border-radius: 4px; min-width: 0; word-break: break-word;
+  }
+  .backlog-item .item-text:focus { background: var(--accent-soft); }
+  .backlog-item .item-actions {
+    display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s;
+  }
+  .backlog-item:hover .item-actions { opacity: 1; }
+  .icon-btn {
+    background: transparent; border: none; color: var(--text-3); cursor: pointer;
+    padding: 4px 6px; border-radius: 4px; font-size: 14px; line-height: 1; transition: all 0.15s;
+  }
+  .icon-btn:hover { background: var(--bg-soft); color: var(--accent); }
+  .icon-btn.delete:hover { color: var(--red); }
+  .icon-btn.promote:hover { color: var(--green); }
+
+  /* COMPLETED */
+  .completed {
+    background: var(--bg-soft); border-radius: 12px; padding: 16px 20px;
+  }
+  .completed-toggle {
+    display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;
+  }
+  .completed-toggle h2 {
+    font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 500;
+  }
+  .completed-toggle .count {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .completed-toggle .chev { margin-left: 10px; transition: transform 0.2s; color: var(--text-3); }
+  .completed.open .chev { transform: rotate(90deg); }
+  .completed-list { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .completed.open .completed-list { display: block; }
+  .completed-item {
+    display: flex; align-items: center; gap: 10px; padding: 8px 4px;
+    font-size: 13px; color: var(--text-2); border-bottom: 1px solid var(--border-light);
+  }
+  .completed-item:last-child { border-bottom: none; }
+  .completed-item .check { color: var(--green); font-size: 14px; flex-shrink: 0; }
+  .completed-item .text {
+    flex: 1; text-decoration: line-through; text-decoration-color: var(--text-3);
+    min-width: 0; word-break: break-word;
+  }
+  .completed-item .when {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); flex-shrink: 0;
+  }
+  .completed-item .restore {
+    background: transparent; border: none; color: var(--text-3); cursor: pointer;
+    font-size: 12px; padding: 2px 6px; border-radius: 4px; opacity: 0; transition: opacity 0.15s;
+  }
+  .completed-item:hover .restore { opacity: 1; }
+  .completed-item .restore:hover { color: var(--accent); }
+
+  /* Static sections */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 24px; box-shadow: var(--shadow-sm);
+  }
+  .card h3 {
+    font-family: 'Fraunces', Georgia, serif; font-size: 17px; font-weight: 500;
+    margin-bottom: 14px; color: var(--text); display: flex; align-items: center; gap: 8px;
+  }
+  .row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid var(--border-light); font-size: 14px; gap: 12px;
+  }
+  .row:last-child { border-bottom: none; }
+  .row .name { color: var(--text); font-weight: 500; }
+  .row .note { color: var(--text-3); font-size: 12px; margin-top: 2px; }
+  .row .left { flex: 1; min-width: 0; }
+
+  /* Projects (What's running) */
+  .project-list { display: flex; flex-direction: column; }
+  .project-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--border-light);
+  }
+  .project-item:last-child { border-bottom: none; }
+  .project-item .project-main { flex: 1; min-width: 0; }
+  .project-item .project-name {
+    font-weight: 500; color: var(--text); outline: none;
+    padding: 2px 4px; border-radius: 4px; margin: -2px -4px;
+  }
+  .project-item .project-name:focus { background: var(--accent-soft); }
+  .project-item .project-note {
+    color: var(--text-3); font-size: 12px; margin-top: 2px; outline: none;
+    padding: 2px 4px; border-radius: 4px; margin-left: -4px; margin-right: -4px;
+  }
+  .project-item .project-note:focus { background: var(--accent-soft); }
+  .project-item .project-delete {
+    opacity: 0; background: transparent; border: none; color: var(--text-3);
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 14px;
+    line-height: 1; transition: all 0.15s;
+  }
+  .project-item:hover .project-delete { opacity: 1; }
+  .project-item .project-delete:hover { color: var(--red); }
+  .project-add-wrap {
+    display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .project-add-name, .project-add-note {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 10px; font-family: 'Inter', sans-serif; font-size: 12px;
+    color: var(--text); transition: border-color 0.15s;
+  }
+  .project-add-name { width: 120px; }
+  .project-add-note { flex: 1; min-width: 140px; }
+  .project-add-name:focus, .project-add-note:focus { outline: none; border-color: var(--accent); }
+  .project-add-wrap .add-btn { padding: 6px 12px; font-size: 11px; }
+  .pill {
+    font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace; white-space: nowrap;
+  }
+  .pill.green { background: var(--green-soft); color: var(--green); }
+  .pill.amber { background: var(--amber-soft); color: var(--amber); }
+  .pill.red { background: var(--red-soft); color: var(--red); }
+  .pill.gray { background: var(--gray-soft); color: var(--gray); }
+
+  /* Agents */
+  .agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .agent {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; box-shadow: var(--shadow-sm); transition: all 0.15s;
+    color: inherit; display: block; position: relative;
+  }
+  .agent.has-url { cursor: pointer; }
+  .agent.has-url:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .agent .role { font-family: 'Fraunces', Georgia, serif; font-size: 16px; font-weight: 500; margin-bottom: 2px; outline: none; }
+  .agent .desc { font-size: 12px; color: var(--text-3); outline: none; }
+  .agent .role:focus, .agent .desc:focus { background: var(--accent-soft); border-radius: 4px; padding: 1px 4px; margin: -1px -4px; }
+  .agent .agent-delete {
+    position: absolute; top: 6px; right: 6px; opacity: 0;
+    background: transparent; border: none; color: var(--text-3); cursor: pointer;
+    padding: 2px 6px; border-radius: 4px; font-size: 14px; line-height: 1; transition: all 0.15s;
+  }
+  .agent:hover .agent-delete { opacity: 1; }
+  .agent .agent-delete:hover { color: var(--red); background: var(--bg-soft); }
+  .agents-add-wrap {
+    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .agents-add-role, .agents-add-desc, .agents-add-url {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 13px;
+    color: var(--text); transition: border-color 0.15s;
+  }
+  .agents-add-role { width: 140px; }
+  .agents-add-desc { flex: 1; min-width: 200px; }
+  .agents-add-url { width: 240px; }
+  .agents-add-role:focus, .agents-add-desc:focus, .agents-add-url:focus { outline: none; border-color: var(--accent); }
+
+  /* Routines (list pattern) */
+  .routines-card { padding: 12px 16px; }
+  .routine-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 4px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .routine-item:last-child { border-bottom: none; }
+  .routine-item .routine-text {
+    flex: 1; font-size: 14px; outline: none; padding: 2px 4px;
+    border-radius: 4px; min-width: 0; word-break: break-word;
+  }
+  .routine-item .routine-text:focus { background: var(--accent-soft); }
+  .routine-item .routine-delete {
+    opacity: 0; background: transparent; border: none; color: var(--text-3);
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 14px;
+    line-height: 1; transition: all 0.15s;
+  }
+  .routine-item:hover .routine-delete { opacity: 1; }
+  .routine-item .routine-delete:hover { color: var(--red); }
+
+  /* Links */
+  .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+  .link-item {
+    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 8px;
+    color: var(--text); font-size: 13px; transition: all 0.15s; position: relative;
+  }
+  .link-item:hover { border-color: var(--accent); }
+  .link-item .link-anchor {
+    flex: 1; text-decoration: none; color: var(--text); display: flex;
+    align-items: center; gap: 8px; min-width: 0;
+  }
+  .link-item .link-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .link-item .arrow { color: var(--text-3); font-family: 'JetBrains Mono', monospace; transition: color 0.15s; }
+  .link-item:hover .arrow { color: var(--accent); }
+  .link-item .link-edit, .link-item .link-delete {
+    opacity: 0; background: transparent; border: none; color: var(--text-3);
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 12px;
+    line-height: 1; transition: all 0.15s;
+  }
+  .link-item:hover .link-edit, .link-item:hover .link-delete { opacity: 1; }
+  .link-item .link-edit:hover { color: var(--accent); }
+  .link-item .link-delete:hover { color: var(--red); }
+
+  /* Link item — edit mode */
+  .link-item.editing { padding: 8px 10px; gap: 6px; border-color: var(--accent); background: var(--bg-card); }
+  .link-item .link-edit-row {
+    display: flex; flex: 1; gap: 6px; align-items: center; min-width: 0; flex-wrap: wrap;
+  }
+  .link-item .link-edit-input {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 10px; font-family: 'Inter', sans-serif; font-size: 12px;
+    color: var(--text); transition: border-color 0.15s; min-width: 80px;
+  }
+  .link-item .link-edit-input:focus { outline: none; border-color: var(--accent); }
+  .link-item .link-edit-label-input { width: 120px; }
+  .link-item .link-edit-url-input { flex: 1; min-width: 140px; }
+  .link-item .link-edit-actions { display: flex; gap: 4px; }
+  .link-item .link-save, .link-item .link-cancel {
+    background: transparent; border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;
+    color: var(--text-2); transition: all 0.15s;
+  }
+  .link-item .link-save { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+  .link-item .link-save:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .link-item .link-cancel:hover { color: var(--text); border-color: var(--text-2); }
+
+  .links-add-wrap {
+    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .links-add-label, .links-add-url {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 13px;
+    color: var(--text); transition: border-color 0.15s;
+  }
+  .links-add-label { width: 200px; }
+  .links-add-url { flex: 1; min-width: 240px; }
+  .links-add-label:focus, .links-add-url:focus { outline: none; border-color: var(--accent); }
+
+  .ritual {
+    background: linear-gradient(135deg, var(--accent-soft), var(--bg-card));
+    border: 1px solid var(--accent-soft); border-radius: 12px; padding: 24px 28px;
+  }
+  .ritual-header {
+    display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; gap: 12px;
+  }
+  .ritual h3 { font-family: 'Fraunces', Georgia, serif; font-size: 18px; }
+  .ritual-reset {
+    background: transparent; border: none; color: var(--text-3); font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: color 0.15s;
+  }
+  .ritual-reset:hover { color: var(--accent); }
+  .ritual-list { counter-reset: ritual-counter; }
+  .ritual-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 0; padding-left: 28px; position: relative;
+    counter-increment: ritual-counter; font-size: 14px;
+  }
+  .ritual-item:before {
+    content: counter(ritual-counter) ".";
+    position: absolute; left: 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    color: var(--accent); font-weight: 500; width: 22px; text-align: right;
+  }
+  .ritual-text {
+    flex: 1; outline: none; padding: 2px 4px; border-radius: 4px;
+    min-width: 0; word-break: break-word;
+  }
+  .ritual-text:focus { background: rgba(255,255,255,0.6); }
+  .ritual-delete {
+    opacity: 0; background: transparent; border: none; color: var(--text-3);
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 14px;
+    line-height: 1; transition: all 0.15s;
+  }
+  .ritual-item:hover .ritual-delete { opacity: 1; }
+  .ritual-delete:hover { color: var(--red); }
+
+  .rules {
+    background: var(--bg-soft); border-radius: 12px; padding: 24px 28px;
+    color: var(--text-2); font-size: 13px; line-height: 1.6;
+  }
+  .rules-header {
+    display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; gap: 12px;
+  }
+  .rules h3 { font-family: 'Fraunces', Georgia, serif; font-size: 16px; color: var(--text); }
+  .rules-reset {
+    background: transparent; border: none; color: var(--text-3); font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: color 0.15s;
+  }
+  .rules-reset:hover { color: var(--accent); }
+  .rules-list { list-style: none; }
+  .rule-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 0; padding-left: 20px; position: relative;
+  }
+  .rule-item:before {
+    content: "→"; position: absolute; left: 0; color: var(--accent);
+  }
+  .rule-text {
+    flex: 1; outline: none; padding: 2px 4px; border-radius: 4px;
+    min-width: 0; word-break: break-word; color: var(--text-2);
+  }
+  .rule-text:focus { background: var(--accent-soft); color: var(--text); }
+  .rule-delete {
+    opacity: 0; background: transparent; border: none; color: var(--text-3);
+    cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 14px;
+    line-height: 1; transition: all 0.15s;
+  }
+  .rule-item:hover .rule-delete { opacity: 1; }
+  .rule-delete:hover { color: var(--red); }
+  .rules-add-wrap, .ritual-add-wrap, .routines-add-wrap {
+    display: flex; gap: 8px; margin-top: 14px; align-items: center;
+  }
+  .rules-add, .ritual-add, .routines-add {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 12px; font-family: 'Inter', sans-serif; font-size: 13px;
+    color: var(--text); flex: 1; min-width: 200px; transition: border-color 0.15s;
+  }
+  .rules-add::placeholder, .ritual-add::placeholder, .routines-add::placeholder { color: var(--text-3); }
+  .rules-add:focus, .ritual-add:focus, .routines-add:focus { outline: none; border-color: var(--accent); }
+
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    padding: 24px 0 8px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-3);
+    letter-spacing: 0.04em;
+  }
+  .footer a {
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer a:hover { color: var(--accent); }
+  .footer-privacy {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--text-3);
+    font-style: italic;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0;
+  }
+
+  .saved {
+    position: fixed; bottom: 20px; right: 20px; background: var(--text); color: #ffffff;
+    padding: 8px 14px; border-radius: 999px; font-size: 12px;
+    font-family: 'JetBrains Mono', monospace; opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; z-index: 100;
+  }
+  .saved.show { opacity: 1; }
+  .edit-hint { font-size: 11px; color: var(--text-3); font-style: italic; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-left">
+      <h1>Start <span class="accent">here</span>.</h1>
+      <div class="sub">The antidote to "what was I doing two months ago."</div>
+    </div>
+    <div class="hero-right">
+      <div id="today"></div>
+      <div class="last-session">Last touched <span id="last-session" contenteditable="true">—</span></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Right now</h2>
+      <div class="meta">3-slot cap · drag to reorder · drag from backlog to replace</div>
+    </div>
+    <div class="priorities" id="priorities"></div>
+    <div class="edit-hint">Drag between slots to reorder. Drag from backlog to replace (bumped card returns to backlog top). Click ✓ Done to complete.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Backlog</h2>
+      <div class="backlog-controls">
+        <input type="text" class="add-input" id="add-input" placeholder="Add to backlog…" />
+        <button class="add-btn" id="add-btn">Add</button>
+      </div>
+    </div>
+    <div class="backlog" id="backlog"></div>
+  </section>
+
+  <section class="section">
+    <div class="completed" id="completed-section">
+      <div class="completed-toggle" id="completed-toggle">
+        <h2>Completed <span class="count" id="completed-count">0</span></h2>
+        <span class="chev">▶</span>
+      </div>
+      <div class="completed-list" id="completed-list"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>What's running</h2>
+      <button class="rules-reset" id="projects-reset" title="Restore the default projects">reset</button>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🟢 Live and earning</h3>
+        <div class="project-list" id="projects-live-list"></div>
+        <div class="project-add-wrap">
+          <input type="text" class="project-add-name" id="projects-live-add-name" placeholder="Name" />
+          <input type="text" class="project-add-note" id="projects-live-add-note" placeholder="One-line note (optional)" />
+          <button class="add-btn" id="projects-live-add-btn">Add</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>⏸️ Paused</h3>
+        <div class="project-list" id="projects-paused-list"></div>
+        <div class="project-add-wrap">
+          <input type="text" class="project-add-name" id="projects-paused-add-name" placeholder="Name" />
+          <input type="text" class="project-add-note" id="projects-paused-add-note" placeholder="Why paused (optional)" />
+          <button class="add-btn" id="projects-paused-add-btn">Add</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Automated routines</h2>
+      <button class="rules-reset" id="routines-reset" title="Restore the default routines">reset</button>
+    </div>
+    <div class="card routines-card">
+      <div class="routines-list" id="routines-list"></div>
+      <div class="routines-add-wrap">
+        <input type="text" class="routines-add" id="routines-add" placeholder="Add a routine" />
+        <button class="add-btn" id="routines-add-btn">Add</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Agents</h2>
+      <button class="rules-reset" id="agents-reset" title="Restore the default agents">reset</button>
+    </div>
+    <div class="agents" id="agents-list"></div>
+    <div class="agents-add-wrap">
+      <input type="text" class="agents-add-role" id="agents-add-role" placeholder="Role (e.g. CEO)" />
+      <input type="text" class="agents-add-desc" id="agents-add-desc" placeholder="One-line description" />
+      <input type="text" class="agents-add-url" id="agents-add-url" placeholder="URL (optional)" />
+      <button class="add-btn" id="agents-add-btn">Add</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="ritual">
+      <div class="ritual-header">
+        <h3>When I return after time away</h3>
+        <button class="ritual-reset" id="ritual-reset" title="Restore the default steps">reset</button>
+      </div>
+      <div class="ritual-list" id="ritual-list"></div>
+      <div class="ritual-add-wrap">
+        <input type="text" class="ritual-add" id="ritual-add" placeholder="Add a step" />
+        <button class="add-btn" id="ritual-add-btn">Add</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Quick links</h2>
+      <button class="rules-reset" id="links-reset" title="Restore the default links">reset</button>
+    </div>
+    <div class="links-grid" id="links-list"></div>
+    <div class="links-add-wrap">
+      <input type="text" class="links-add-label" id="links-add-label" placeholder="Label" />
+      <input type="text" class="links-add-url" id="links-add-url" placeholder="https://..." />
+      <button class="add-btn" id="links-add-btn">Add</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="rules">
+      <div class="rules-header">
+        <h3>Rules I gave myself</h3>
+        <button class="rules-reset" id="rules-reset" title="Restore the default rules">reset</button>
+      </div>
+      <div class="rules-list" id="rules-list"></div>
+      <div class="rules-add-wrap">
+        <input type="text" class="rules-add" id="rules-add" placeholder="Add a rule" />
+        <button class="add-btn" id="rules-add-btn">Add</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>Built by <a href="https://robriggs.com" target="_blank" rel="noopener noreferrer">Rob Riggs</a> · <a href="https://codeconspirators.com" target="_blank" rel="noopener noreferrer">Code Conspirators</a> · <a href="https://github.com/robriggs3/start-here" target="_blank" rel="noopener noreferrer">View on GitHub</a></div>
+    <div class="footer-privacy">Your data never leaves your browser.</div>
+  </footer>
+
+</div>
+
+<div class="saved" id="saved">saved</div>
+
+<script>
+  const STORAGE_KEY = 'starthere:v2';
+
+  const DEFAULT_RULES = [
+    'No new tool until current tools are documented here',
+    'Update "Right now" at the end of every working session · two minutes max',
+    'When I deprioritize something, update CLAUDE.md AND TASKS.md immediately',
+    'Set a calendar reminder for monthly hygiene · even if it\'s not automated yet, the calendar can be'
+  ];
+
+  const DEFAULT_RETURN_RITUAL = [
+    'Run hygiene skill: Read ~/Claude/Scheduled/monthly-project-hygiene/SKILL.md and execute it',
+    'Skim the last 5 daily notes in _Daily Notes/',
+    'Check TASKS.md for stale items',
+    'Update the "Right now" priorities above',
+    'Check Render and Digital Ocean for anything still billing'
+  ];
+
+  const DEFAULT_LIVE_PROJECTS = [
+    { name: 'C4 Diagnostic', note: 'Public sales tool · drives DWY/DFY upgrades' },
+    { name: 'Savify Chatbot', note: 'Render-hosted · embedded in client portals' },
+    { name: 'CC Client Portal', note: 'Internal mini-CRM + analytics' },
+    { name: 'Savify Insight Hub', note: 'Payments client PDF reports' },
+    { name: 'Numarrative', note: 'Whitelabel financial reporting' }
+  ];
+
+  const DEFAULT_PAUSED_PROJECTS = [
+    { name: 'ReconRep', note: 'Bugs unfixed, low team usage' },
+    { name: 'MarketingCampaignPlanner', note: 'Supabase inactive' },
+    { name: 'Foundational Framework', note: 'Supabase inactive' }
+  ];
+
+  const DEFAULT_ROUTINES = [
+    'n8n backup (Sun 9am UTC) — weekly n8n state backup',
+    'Monday utilization report — Teamwork time → Slack',
+    'Daily sales call review — Supabase meetings → #cc-sales-mktg',
+    'Monthly project hygiene — audits Lovable, Supabase, memory, tasks',
+    'Daily vault git push — commits and pushes Claude Brain vault'
+  ];
+
+  const DEFAULT_AGENTS = [
+    { role: 'CEO', desc: 'Operating partner · drives decisions', url: 'https://claude.ai/projects' },
+    { role: 'Solution Architect', desc: 'Technical design before code', url: 'https://claude.ai/projects' },
+    { role: 'Developer', desc: 'Lovable + Supabase builder', url: 'https://claude.ai/projects' },
+    { role: 'QA', desc: 'Second pair of eyes', url: 'https://claude.ai/projects' },
+    { role: 'Copywriter', desc: 'LinkedIn, outreach, SAV narrative', url: 'https://claude.ai/projects' }
+  ];
+
+  const DEFAULT_LINKS = [
+    { label: 'C4 Diagnostic', url: 'https://c4score.com' },
+    { label: 'C4 App', url: 'https://app.c4score.com' },
+    { label: 'Numarrative', url: 'https://numarrative.com' },
+    { label: 'Render dashboard', url: 'https://dashboard.render.com' },
+    { label: 'Digital Ocean', url: 'https://cloud.digitalocean.com' },
+    { label: 'Supabase (cc-ai-ops)', url: 'https://supabase.com/dashboard/project/ynfasgydritmtuziqjqg' },
+    { label: 'Lovable', url: 'https://lovable.dev' },
+    { label: 'Claude (web)', url: 'https://claude.ai' },
+    { label: 'Claude Projects', url: 'https://claude.ai/projects' }
+  ];
+
+  function newId() { return 'i_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
+
+  function defaultRules() {
+    return DEFAULT_RULES.map(text => ({ id: newId(), text }));
+  }
+
+  function defaultReturnRitual() {
+    return DEFAULT_RETURN_RITUAL.map(text => ({ id: newId(), text }));
+  }
+
+  function defaultRoutines() {
+    return DEFAULT_ROUTINES.map(text => ({ id: newId(), text }));
+  }
+
+  function defaultAgents() {
+    return DEFAULT_AGENTS.map(a => ({ id: newId(), role: a.role, desc: a.desc, url: a.url }));
+  }
+
+  function defaultLinks() {
+    return DEFAULT_LINKS.map(l => ({ id: newId(), label: l.label, url: l.url }));
+  }
+
+  function defaultLiveProjects() {
+    return DEFAULT_LIVE_PROJECTS.map(p => ({ id: newId(), name: p.name, note: p.note }));
+  }
+
+  function defaultPausedProjects() {
+    return DEFAULT_PAUSED_PROJECTS.map(p => ({ id: newId(), name: p.name, note: p.note }));
+  }
+
+  function defaultState() {
+    return {
+      topThree: [null, null, null],
+      backlog: [], completed: [], lastSession: '',
+      rules: defaultRules(),
+      returnRitual: defaultReturnRitual(),
+      routines: defaultRoutines(),
+      agents: defaultAgents(),
+      links: defaultLinks(),
+      liveProjects: defaultLiveProjects(),
+      pausedProjects: defaultPausedProjects()
+    };
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return migrateOrDefault();
+      const parsed = JSON.parse(raw);
+      while (parsed.topThree.length < 3) parsed.topThree.push(null);
+      parsed.topThree = parsed.topThree.slice(0, 3);
+      if (!parsed.backlog) parsed.backlog = [];
+      if (!parsed.completed) parsed.completed = [];
+      if (!parsed.lastSession) parsed.lastSession = '';
+      if (!parsed.rules) parsed.rules = defaultRules();
+      if (!parsed.returnRitual) parsed.returnRitual = defaultReturnRitual();
+      if (!parsed.routines) parsed.routines = defaultRoutines();
+      if (!parsed.agents) parsed.agents = defaultAgents();
+      if (!parsed.links) parsed.links = defaultLinks();
+      if (!parsed.liveProjects) parsed.liveProjects = defaultLiveProjects();
+      if (!parsed.pausedProjects) parsed.pausedProjects = defaultPausedProjects();
+      return parsed;
+    } catch(e) {
+      console.error('Load failed', e);
+      return defaultState();
+    }
+  }
+
+  // One-time migration from v1 keys (the original page)
+  function migrateOrDefault() {
+    const s = defaultState();
+    const p1 = localStorage.getItem('starthere:p1');
+    const p2 = localStorage.getItem('starthere:p2');
+    const p3 = localStorage.getItem('starthere:p3');
+    const ls = localStorage.getItem('starthere:last-session');
+    if (p1) s.topThree[0] = { id: newId(), text: p1 };
+    if (p2) s.topThree[1] = { id: newId(), text: p2 };
+    if (p3) s.topThree[2] = { id: newId(), text: p3 };
+    if (ls) s.lastSession = ls;
+    return s;
+  }
+
+  let state = loadState();
+
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    showSaved();
+  }
+
+  const savedEl = document.getElementById('saved');
+  let saveTimer;
+  function showSaved() {
+    savedEl.classList.add('show');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => savedEl.classList.remove('show'), 1000);
+  }
+
+  function render() {
+    renderPriorities();
+    renderBacklog();
+    renderCompleted();
+    renderRules();
+    renderReturnRitual();
+    renderRoutines();
+    renderAgents();
+    renderLinks();
+    renderProjects();
+  }
+
+  function renderPriorities() {
+    const container = document.getElementById('priorities');
+    container.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const item = state.topThree[i];
+      const card = document.createElement('div');
+      card.className = 'priority';
+      card.dataset.slot = i;
+      card.draggable = !!item;
+
+      const num = document.createElement('div');
+      num.className = 'num';
+      num.textContent = String(i + 1).padStart(2, '0');
+      card.appendChild(num);
+
+      const text = document.createElement('div');
+      text.className = 'text';
+      text.contentEditable = 'true';
+      text.dataset.placeholder = i === 0 ? 'Drag here, or type your top priority' : (i === 1 ? 'Second priority' : 'Third priority');
+      text.textContent = item ? item.text : '';
+      const capturedId = item ? item.id : null;
+      text.addEventListener('blur', () => {
+        const v = text.textContent.trim();
+        const current = state.topThree[i];
+        // Stale blur guard: if the slot's contents changed since render (e.g. via drag), ignore this blur
+        if (capturedId === null && current !== null) return;
+        if (capturedId !== null && (!current || current.id !== capturedId)) return;
+        if (v && !current) {
+          state.topThree[i] = { id: newId(), text: v };
+          saveState(); render();
+        } else if (current) {
+          if (v) { current.text = v; saveState(); }
+          else { state.topThree[i] = null; saveState(); render(); }
+        }
+      });
+      text.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+      });
+      card.appendChild(text);
+
+      if (item) {
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+        const doneBtn = document.createElement('button');
+        doneBtn.className = 'btn-icon complete';
+        doneBtn.textContent = '✓ Done';
+        doneBtn.onclick = () => completeFromTopThree(i);
+        actions.appendChild(doneBtn);
+        const demoteBtn = document.createElement('button');
+        demoteBtn.className = 'btn-icon';
+        demoteBtn.textContent = '↓ Backlog';
+        demoteBtn.onclick = () => demoteToBacklog(i);
+        actions.appendChild(demoteBtn);
+        card.appendChild(actions);
+      }
+
+      card.addEventListener('dragstart', (e) => onTopDragStart(e, i));
+      card.addEventListener('dragend', onDragEnd);
+      card.addEventListener('dragover', (e) => onTopDragOver(e, card));
+      card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+      card.addEventListener('drop', (e) => onTopDrop(e, i));
+
+      container.appendChild(card);
+    }
+  }
+
+  function renderBacklog() {
+    const container = document.getElementById('backlog');
+    container.innerHTML = '';
+    if (state.backlog.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'backlog-empty';
+      empty.textContent = 'Backlog is empty. Add items above, or drag items down from Right Now.';
+      container.appendChild(empty);
+    } else {
+      state.backlog.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'backlog-item';
+        row.draggable = true;
+        row.dataset.idx = idx;
+
+        const handle = document.createElement('span');
+        handle.className = 'handle';
+        handle.textContent = '⋮⋮';
+        row.appendChild(handle);
+
+        const text = document.createElement('div');
+        text.className = 'item-text';
+        text.contentEditable = 'true';
+        text.textContent = item.text;
+        const capturedId = item.id;
+        text.addEventListener('blur', () => {
+          const v = text.textContent.trim();
+          // Find item by ID since idx may have shifted from reorders/drags
+          const currentIdx = state.backlog.findIndex(b => b.id === capturedId);
+          if (currentIdx === -1) return; // item moved or deleted
+          if (v) { state.backlog[currentIdx].text = v; saveState(); }
+          else { state.backlog.splice(currentIdx, 1); saveState(); render(); }
+        });
+        text.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+        });
+        row.appendChild(text);
+
+        const actions = document.createElement('div');
+        actions.className = 'item-actions';
+        const promoteBtn = document.createElement('button');
+        promoteBtn.className = 'icon-btn promote';
+        promoteBtn.title = 'Promote to Right Now';
+        promoteBtn.textContent = '↑';
+        promoteBtn.onclick = () => promoteToTopThree(idx);
+        actions.appendChild(promoteBtn);
+        const delBtn = document.createElement('button');
+        delBtn.className = 'icon-btn delete';
+        delBtn.title = 'Delete';
+        delBtn.textContent = '✕';
+        delBtn.onclick = () => {
+          state.backlog.splice(idx, 1);
+          saveState(); render();
+        };
+        actions.appendChild(delBtn);
+        row.appendChild(actions);
+
+        row.addEventListener('dragstart', (e) => onBacklogDragStart(e, idx));
+        row.addEventListener('dragend', onDragEnd);
+        row.addEventListener('dragover', (e) => onBacklogItemDragOver(e, row));
+        row.addEventListener('dragleave', () => row.classList.remove('drag-over-top', 'drag-over-bottom'));
+        row.addEventListener('drop', (e) => onBacklogItemDrop(e, idx, row));
+
+        container.appendChild(row);
+      });
+    }
+    // Container-level drop listeners attached once via the outer addBacklogListeners (below)
+  }
+
+  function renderCompleted() {
+    const list = document.getElementById('completed-list');
+    const count = document.getElementById('completed-count');
+    list.innerHTML = '';
+    count.textContent = state.completed.length;
+    state.completed.forEach((item, idx) => {
+      const row = document.createElement('div');
+      row.className = 'completed-item';
+      const check = document.createElement('span');
+      check.className = 'check';
+      check.textContent = '✓';
+      row.appendChild(check);
+      const t = document.createElement('div');
+      t.className = 'text';
+      t.textContent = item.text;
+      row.appendChild(t);
+      const w = document.createElement('span');
+      w.className = 'when';
+      w.textContent = formatWhen(item.completedAt);
+      row.appendChild(w);
+      const restore = document.createElement('button');
+      restore.className = 'restore';
+      restore.textContent = '↶ restore';
+      restore.title = 'Move back to backlog';
+      restore.onclick = () => {
+        state.backlog.unshift({ id: item.id, text: item.text });
+        state.completed.splice(idx, 1);
+        saveState(); render();
+      };
+      row.appendChild(restore);
+      list.appendChild(row);
+    });
+  }
+
+  function renderRules() {
+    const container = document.getElementById('rules-list');
+    container.innerHTML = '';
+    state.rules.forEach((rule) => {
+      const item = document.createElement('div');
+      item.className = 'rule-item';
+
+      const text = document.createElement('div');
+      text.className = 'rule-text';
+      text.contentEditable = 'true';
+      text.textContent = rule.text;
+      const capturedId = rule.id;
+      text.addEventListener('blur', () => {
+        const v = text.textContent.trim();
+        const currentIdx = state.rules.findIndex(r => r.id === capturedId);
+        if (currentIdx === -1) return;
+        if (v) { state.rules[currentIdx].text = v; saveState(); }
+        else { state.rules.splice(currentIdx, 1); saveState(); render(); }
+      });
+      text.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+      });
+      item.appendChild(text);
+
+      const del = document.createElement('button');
+      del.className = 'rule-delete';
+      del.title = 'Delete this rule';
+      del.textContent = '✕';
+      del.onclick = () => {
+        const idx = state.rules.findIndex(r => r.id === capturedId);
+        if (idx === -1) return;
+        state.rules.splice(idx, 1);
+        saveState();
+        render();
+      };
+      item.appendChild(del);
+
+      container.appendChild(item);
+    });
+  }
+
+  function renderReturnRitual() {
+    const container = document.getElementById('ritual-list');
+    container.innerHTML = '';
+    state.returnRitual.forEach((step) => {
+      const item = document.createElement('div');
+      item.className = 'ritual-item';
+
+      const text = document.createElement('div');
+      text.className = 'ritual-text';
+      text.contentEditable = 'true';
+      text.textContent = step.text;
+      const capturedId = step.id;
+      text.addEventListener('blur', () => {
+        const v = text.textContent.trim();
+        const currentIdx = state.returnRitual.findIndex(s => s.id === capturedId);
+        if (currentIdx === -1) return;
+        if (v) { state.returnRitual[currentIdx].text = v; saveState(); }
+        else { state.returnRitual.splice(currentIdx, 1); saveState(); render(); }
+      });
+      text.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+      });
+      item.appendChild(text);
+
+      const del = document.createElement('button');
+      del.className = 'ritual-delete';
+      del.title = 'Delete this step';
+      del.textContent = '✕';
+      del.onclick = () => {
+        const idx = state.returnRitual.findIndex(s => s.id === capturedId);
+        if (idx === -1) return;
+        state.returnRitual.splice(idx, 1);
+        saveState();
+        render();
+      };
+      item.appendChild(del);
+
+      container.appendChild(item);
+    });
+  }
+
+  function renderRoutines() {
+    const container = document.getElementById('routines-list');
+    container.innerHTML = '';
+    state.routines.forEach((routine) => {
+      const item = document.createElement('div');
+      item.className = 'routine-item';
+
+      const text = document.createElement('div');
+      text.className = 'routine-text';
+      text.contentEditable = 'true';
+      text.textContent = routine.text;
+      const capturedId = routine.id;
+      text.addEventListener('blur', () => {
+        const v = text.textContent.trim();
+        const idx = state.routines.findIndex(r => r.id === capturedId);
+        if (idx === -1) return;
+        if (v) { state.routines[idx].text = v; saveState(); }
+        else { state.routines.splice(idx, 1); saveState(); render(); }
+      });
+      text.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+      });
+      item.appendChild(text);
+
+      const del = document.createElement('button');
+      del.className = 'routine-delete';
+      del.title = 'Delete this routine';
+      del.textContent = '✕';
+      del.onclick = () => {
+        const idx = state.routines.findIndex(r => r.id === capturedId);
+        if (idx === -1) return;
+        state.routines.splice(idx, 1);
+        saveState(); render();
+      };
+      item.appendChild(del);
+
+      container.appendChild(item);
+    });
+  }
+
+  function renderAgents() {
+    const container = document.getElementById('agents-list');
+    container.innerHTML = '';
+    state.agents.forEach((agent) => {
+      const card = document.createElement('div');
+      card.className = 'agent' + (agent.url ? ' has-url' : '');
+      const capturedId = agent.id;
+
+      // Make whole card clickable if URL exists, but allow editing
+      if (agent.url) {
+        card.addEventListener('click', (e) => {
+          // Only navigate if not clicking an editable element or button
+          if (e.target.isContentEditable || e.target.tagName === 'BUTTON') return;
+          window.open(agent.url, '_blank', 'noopener,noreferrer');
+        });
+      }
+
+      const role = document.createElement('div');
+      role.className = 'role';
+      role.contentEditable = 'true';
+      role.textContent = agent.role;
+      role.addEventListener('blur', () => {
+        const v = role.textContent.trim();
+        const idx = state.agents.findIndex(a => a.id === capturedId);
+        if (idx === -1) return;
+        if (v) { state.agents[idx].role = v; saveState(); }
+        else { state.agents.splice(idx, 1); saveState(); render(); }
+      });
+      role.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); role.blur(); }
+      });
+      card.appendChild(role);
+
+      const desc = document.createElement('div');
+      desc.className = 'desc';
+      desc.contentEditable = 'true';
+      desc.textContent = agent.desc;
+      desc.addEventListener('blur', () => {
+        const v = desc.textContent.trim();
+        const idx = state.agents.findIndex(a => a.id === capturedId);
+        if (idx === -1) return;
+        state.agents[idx].desc = v;
+        saveState();
+      });
+      desc.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); desc.blur(); }
+      });
+      card.appendChild(desc);
+
+      const del = document.createElement('button');
+      del.className = 'agent-delete';
+      del.title = 'Delete this agent';
+      del.textContent = '✕';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        const idx = state.agents.findIndex(a => a.id === capturedId);
+        if (idx === -1) return;
+        state.agents.splice(idx, 1);
+        saveState(); render();
+      };
+      card.appendChild(del);
+
+      container.appendChild(card);
+    });
+  }
+
+  // Transient edit state (not persisted)
+  let editingLinkId = null;
+
+  function renderLinks() {
+    const container = document.getElementById('links-list');
+    container.innerHTML = '';
+    state.links.forEach((link) => {
+      const item = document.createElement('div');
+      item.className = 'link-item';
+      const capturedId = link.id;
+
+      if (editingLinkId === link.id) {
+        // EDIT MODE
+        item.classList.add('editing');
+        const row = document.createElement('div');
+        row.className = 'link-edit-row';
+
+        const labelInput = document.createElement('input');
+        labelInput.type = 'text';
+        labelInput.className = 'link-edit-input link-edit-label-input';
+        labelInput.value = link.label;
+        labelInput.placeholder = 'Label';
+
+        const urlInput = document.createElement('input');
+        urlInput.type = 'text';
+        urlInput.className = 'link-edit-input link-edit-url-input';
+        urlInput.value = link.url;
+        urlInput.placeholder = 'https://...';
+
+        function commit() {
+          const newLabel = labelInput.value.trim();
+          const newUrl = urlInput.value.trim();
+          const idx = state.links.findIndex(l => l.id === capturedId);
+          if (idx === -1) { editingLinkId = null; render(); return; }
+          if (newLabel) state.links[idx].label = newLabel;
+          if (newUrl) state.links[idx].url = newUrl;
+          editingLinkId = null;
+          saveState(); render();
+        }
+
+        function cancel() {
+          editingLinkId = null;
+          render();
+        }
+
+        labelInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); commit(); }
+          if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+        });
+        urlInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); commit(); }
+          if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+        });
+
+        row.appendChild(labelInput);
+        row.appendChild(urlInput);
+
+        const actions = document.createElement('div');
+        actions.className = 'link-edit-actions';
+
+        const save = document.createElement('button');
+        save.className = 'link-save';
+        save.textContent = 'Save';
+        save.onclick = commit;
+        actions.appendChild(save);
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'link-cancel';
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.onclick = cancel;
+        actions.appendChild(cancelBtn);
+
+        row.appendChild(actions);
+        item.appendChild(row);
+
+        container.appendChild(item);
+        // Focus label input after the render completes
+        setTimeout(() => labelInput.focus(), 0);
+        return;
+      }
+
+      // NORMAL MODE
+      const anchor = document.createElement('a');
+      anchor.className = 'link-anchor';
+      anchor.href = link.url;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer';
+
+      const label = document.createElement('span');
+      label.className = 'link-label';
+      label.textContent = link.label;
+      anchor.appendChild(label);
+
+      const arrow = document.createElement('span');
+      arrow.className = 'arrow';
+      arrow.textContent = '↗';
+      anchor.appendChild(arrow);
+
+      item.appendChild(anchor);
+
+      const edit = document.createElement('button');
+      edit.className = 'link-edit';
+      edit.title = 'Edit label and URL';
+      edit.textContent = 'edit';
+      edit.onclick = (e) => {
+        e.preventDefault();
+        editingLinkId = capturedId;
+        render();
+      };
+      item.appendChild(edit);
+
+      const del = document.createElement('button');
+      del.className = 'link-delete';
+      del.title = 'Delete this link';
+      del.textContent = '✕';
+      del.onclick = (e) => {
+        e.preventDefault();
+        const idx = state.links.findIndex(l => l.id === capturedId);
+        if (idx === -1) return;
+        state.links.splice(idx, 1);
+        saveState(); render();
+      };
+      item.appendChild(del);
+
+      container.appendChild(item);
+    });
+  }
+
+  function renderProjects() {
+    renderProjectColumn('liveProjects', 'projects-live-list');
+    renderProjectColumn('pausedProjects', 'projects-paused-list');
+  }
+
+  function renderProjectColumn(stateKey, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    state[stateKey].forEach((project) => {
+      const item = document.createElement('div');
+      item.className = 'project-item';
+      const capturedId = project.id;
+
+      const main = document.createElement('div');
+      main.className = 'project-main';
+
+      const name = document.createElement('div');
+      name.className = 'project-name';
+      name.contentEditable = 'true';
+      name.textContent = project.name;
+      name.addEventListener('blur', () => {
+        const v = name.textContent.trim();
+        const idx = state[stateKey].findIndex(p => p.id === capturedId);
+        if (idx === -1) return;
+        if (v) { state[stateKey][idx].name = v; saveState(); }
+        else { state[stateKey].splice(idx, 1); saveState(); render(); }
+      });
+      name.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); name.blur(); }
+      });
+      main.appendChild(name);
+
+      const note = document.createElement('div');
+      note.className = 'project-note';
+      note.contentEditable = 'true';
+      note.textContent = project.note;
+      note.addEventListener('blur', () => {
+        const v = note.textContent.trim();
+        const idx = state[stateKey].findIndex(p => p.id === capturedId);
+        if (idx === -1) return;
+        state[stateKey][idx].note = v;
+        saveState();
+      });
+      note.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); note.blur(); }
+      });
+      main.appendChild(note);
+
+      item.appendChild(main);
+
+      const del = document.createElement('button');
+      del.className = 'project-delete';
+      del.title = 'Delete this project';
+      del.textContent = '✕';
+      del.onclick = () => {
+        const idx = state[stateKey].findIndex(p => p.id === capturedId);
+        if (idx === -1) return;
+        state[stateKey].splice(idx, 1);
+        saveState(); render();
+      };
+      item.appendChild(del);
+
+      container.appendChild(item);
+    });
+  }
+
+  function formatWhen(iso) {
+    const d = new Date(iso);
+    const now = new Date();
+    const diffMs = now - d;
+    const diffDays = Math.floor(diffMs / 86400000);
+    if (diffDays === 0) return 'today';
+    if (diffDays === 1) return 'yesterday';
+    if (diffDays < 7) return diffDays + 'd ago';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  // Actions
+  function completeFromTopThree(slotIdx) {
+    const item = state.topThree[slotIdx];
+    if (!item) return;
+    state.completed.unshift({ id: item.id, text: item.text, completedAt: new Date().toISOString() });
+    state.topThree[slotIdx] = null;
+    saveState(); render();
+  }
+
+  function demoteToBacklog(slotIdx) {
+    const item = state.topThree[slotIdx];
+    if (!item) return;
+    state.backlog.unshift(item);
+    state.topThree[slotIdx] = null;
+    saveState(); render();
+  }
+
+  function promoteToTopThree(backlogIdx) {
+    const item = state.backlog[backlogIdx];
+    if (!item) return;
+    const empty = state.topThree.findIndex(s => s === null);
+    if (empty === -1) {
+      const bumped = state.topThree[2];
+      state.topThree[2] = item;
+      state.backlog.splice(backlogIdx, 1);
+      state.backlog.unshift(bumped);
+    } else {
+      state.backlog.splice(backlogIdx, 1);
+      state.topThree[empty] = item;
+    }
+    saveState(); render();
+  }
+
+  // Drag state
+  let dragSource = null;
+
+  function onTopDragStart(e, slotIdx) {
+    const item = state.topThree[slotIdx];
+    if (!item) { e.preventDefault(); return; }
+    dragSource = { type: 'top', slotIdx, id: item.id };
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', item.id);
+  }
+
+  function onBacklogDragStart(e, idx) {
+    const item = state.backlog[idx];
+    dragSource = { type: 'backlog', backlogIdx: idx, id: item.id };
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', item.id);
+  }
+
+  function onDragEnd(e) {
+    e.currentTarget.classList.remove('dragging');
+    document.querySelectorAll('.drag-over, .drag-over-top, .drag-over-bottom')
+      .forEach(el => el.classList.remove('drag-over', 'drag-over-top', 'drag-over-bottom'));
+    dragSource = null;
+  }
+
+  function onTopDragOver(e, card) {
+    if (!dragSource) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    card.classList.add('drag-over');
+  }
+
+  function onTopDrop(e, slotIdx) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    if (!dragSource) return;
+
+    if (dragSource.type === 'top') {
+      const from = dragSource.slotIdx;
+      if (from === slotIdx) return;
+      const moving = state.topThree[from];
+      const existing = state.topThree[slotIdx];
+      state.topThree[from] = null;
+      state.topThree[slotIdx] = moving;
+      // If destination had content, bump it to top of backlog (non-destructive)
+      if (existing) state.backlog.unshift(existing);
+    } else if (dragSource.type === 'backlog') {
+      const incoming = state.backlog[dragSource.backlogIdx];
+      const existing = state.topThree[slotIdx];
+      state.backlog.splice(dragSource.backlogIdx, 1);
+      if (existing) state.backlog.unshift(existing);
+      state.topThree[slotIdx] = incoming;
+    }
+    saveState(); render();
+  }
+
+  function onBacklogItemDragOver(e, row) {
+    if (!dragSource) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const rect = row.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
+    row.classList.remove('drag-over-top', 'drag-over-bottom');
+    if (e.clientY < midY) row.classList.add('drag-over-top');
+    else row.classList.add('drag-over-bottom');
+  }
+
+  function onBacklogItemDrop(e, dropIdx, row) {
+    e.preventDefault();
+    const rect = row.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
+    const before = e.clientY < midY;
+    row.classList.remove('drag-over-top', 'drag-over-bottom');
+    if (!dragSource) return;
+
+    let insertIdx = before ? dropIdx : dropIdx + 1;
+
+    if (dragSource.type === 'backlog') {
+      const fromIdx = dragSource.backlogIdx;
+      if (fromIdx === dropIdx) return;
+      const [moved] = state.backlog.splice(fromIdx, 1);
+      if (fromIdx < insertIdx) insertIdx--;
+      state.backlog.splice(insertIdx, 0, moved);
+    } else if (dragSource.type === 'top') {
+      const item = state.topThree[dragSource.slotIdx];
+      state.topThree[dragSource.slotIdx] = null;
+      state.backlog.splice(insertIdx, 0, item);
+    }
+    saveState(); render();
+  }
+
+  // Container-level drop (empty backlog or "drop at end")
+  const backlogEl = document.getElementById('backlog');
+  backlogEl.addEventListener('dragover', (e) => {
+    if (e.target !== backlogEl && !e.target.classList.contains('backlog-empty')) return;
+    if (!dragSource) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    backlogEl.classList.add('drag-over');
+  });
+  backlogEl.addEventListener('dragleave', (e) => {
+    if (e.target === backlogEl) backlogEl.classList.remove('drag-over');
+  });
+  backlogEl.addEventListener('drop', (e) => {
+    if (e.target !== backlogEl && !e.target.classList.contains('backlog-empty')) return;
+    e.preventDefault();
+    backlogEl.classList.remove('drag-over');
+    if (!dragSource) return;
+    if (dragSource.type === 'top') {
+      const item = state.topThree[dragSource.slotIdx];
+      state.topThree[dragSource.slotIdx] = null;
+      state.backlog.push(item);
+    } else if (dragSource.type === 'backlog') {
+      const [moved] = state.backlog.splice(dragSource.backlogIdx, 1);
+      state.backlog.push(moved);
+    }
+    saveState(); render();
+  });
+
+  // Add input
+  const addInput = document.getElementById('add-input');
+  const addBtn = document.getElementById('add-btn');
+  function addBacklogItem() {
+    const v = addInput.value.trim();
+    if (!v) return;
+    state.backlog.push({ id: newId(), text: v });
+    addInput.value = '';
+    saveState(); render();
+  }
+  addBtn.onclick = addBacklogItem;
+  addInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addBacklogItem();
+  });
+
+  // Completed toggle
+  document.getElementById('completed-toggle').onclick = () => {
+    document.getElementById('completed-section').classList.toggle('open');
+  };
+
+  // Shared helper: wire a single-field add form
+  function wireSingleFieldAdd(inputId, btnId, stateKey) {
+    const input = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    function add() {
+      const v = input.value.trim();
+      if (!v) return;
+      state[stateKey].push({ id: newId(), text: v });
+      input.value = '';
+      saveState(); render();
+      input.focus();
+    }
+    btn.onclick = add;
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') add();
+    });
+  }
+
+  // Rules
+  wireSingleFieldAdd('rules-add', 'rules-add-btn', 'rules');
+  document.getElementById('rules-reset').onclick = () => {
+    if (confirm('Restore the default rules? Your current rules will be replaced.')) {
+      state.rules = defaultRules();
+      saveState(); render();
+    }
+  };
+
+  // Return ritual
+  wireSingleFieldAdd('ritual-add', 'ritual-add-btn', 'returnRitual');
+  document.getElementById('ritual-reset').onclick = () => {
+    if (confirm('Restore the default return-ritual steps? Your current steps will be replaced.')) {
+      state.returnRitual = defaultReturnRitual();
+      saveState(); render();
+    }
+  };
+
+  // Routines
+  wireSingleFieldAdd('routines-add', 'routines-add-btn', 'routines');
+  document.getElementById('routines-reset').onclick = () => {
+    if (confirm('Restore the default routines? Your current routines will be replaced.')) {
+      state.routines = defaultRoutines();
+      saveState(); render();
+    }
+  };
+
+  // Agents: add and reset
+  const agentsRoleInput = document.getElementById('agents-add-role');
+  const agentsDescInput = document.getElementById('agents-add-desc');
+  const agentsUrlInput = document.getElementById('agents-add-url');
+  const agentsAddBtn = document.getElementById('agents-add-btn');
+  function addAgent() {
+    const role = agentsRoleInput.value.trim();
+    const desc = agentsDescInput.value.trim();
+    const url = agentsUrlInput.value.trim();
+    if (!role) return;
+    state.agents.push({ id: newId(), role, desc, url });
+    agentsRoleInput.value = '';
+    agentsDescInput.value = '';
+    agentsUrlInput.value = '';
+    saveState(); render();
+    agentsRoleInput.focus();
+  }
+  agentsAddBtn.onclick = addAgent;
+  [agentsRoleInput, agentsDescInput, agentsUrlInput].forEach(el => {
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addAgent();
+    });
+  });
+  document.getElementById('agents-reset').onclick = () => {
+    if (confirm('Restore the default agents? Your current agents will be replaced.')) {
+      state.agents = defaultAgents();
+      saveState(); render();
+    }
+  };
+
+  // Links: add and reset
+  const linksLabelInput = document.getElementById('links-add-label');
+  const linksUrlInput = document.getElementById('links-add-url');
+  const linksAddBtn = document.getElementById('links-add-btn');
+  function addLink() {
+    const label = linksLabelInput.value.trim();
+    const url = linksUrlInput.value.trim();
+    if (!label || !url) return;
+    state.links.push({ id: newId(), label, url });
+    linksLabelInput.value = '';
+    linksUrlInput.value = '';
+    saveState(); render();
+    linksLabelInput.focus();
+  }
+  linksAddBtn.onclick = addLink;
+  [linksLabelInput, linksUrlInput].forEach(el => {
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addLink();
+    });
+  });
+  document.getElementById('links-reset').onclick = () => {
+    if (confirm('Restore the default links? Your current links will be replaced.')) {
+      state.links = defaultLinks();
+      saveState(); render();
+    }
+  };
+
+  // Projects (What's running): add to either column
+  function wireProjectAdd(prefix, stateKey) {
+    const nameInput = document.getElementById(prefix + '-add-name');
+    const noteInput = document.getElementById(prefix + '-add-note');
+    const btn = document.getElementById(prefix + '-add-btn');
+    function add() {
+      const n = nameInput.value.trim();
+      const note = noteInput.value.trim();
+      if (!n) return;
+      state[stateKey].push({ id: newId(), name: n, note });
+      nameInput.value = '';
+      noteInput.value = '';
+      saveState(); render();
+      nameInput.focus();
+    }
+    btn.onclick = add;
+    [nameInput, noteInput].forEach(el => {
+      el.addEventListener('keydown', (e) => { if (e.key === 'Enter') add(); });
+    });
+  }
+  wireProjectAdd('projects-live', 'liveProjects');
+  wireProjectAdd('projects-paused', 'pausedProjects');
+
+  // Projects: reset both columns
+  document.getElementById('projects-reset').onclick = () => {
+    if (confirm('Restore the default projects in both columns? Your current projects will be replaced.')) {
+      state.liveProjects = defaultLiveProjects();
+      state.pausedProjects = defaultPausedProjects();
+      saveState(); render();
+    }
+  };
+
+  // Last session
+  const lastSessionEl = document.getElementById('last-session');
+  if (state.lastSession) lastSessionEl.textContent = state.lastSession;
+  lastSessionEl.addEventListener('blur', () => {
+    state.lastSession = lastSessionEl.textContent.trim();
+    saveState();
+  });
+
+  // Today
+  document.getElementById('today').textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+  });
+
+  render();
+</script>
+</body>
+</html>
