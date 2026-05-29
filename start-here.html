@@ -671,24 +671,22 @@
   ];
 
   const DEFAULT_LIVE_PROJECTS = [
-    { name: 'C4 Diagnostic', note: 'Public sales tool · drives DWY/DFY upgrades' },
-    { name: 'Savify Chatbot', note: 'Render-hosted · embedded in client portals' },
+    { name: 'C4Score.com', note: 'Public sales tool · drives DWY/DFY upgrades' },
     { name: 'CC Client Portal', note: 'Internal mini-CRM + analytics' },
-    { name: 'Savify Insight Hub', note: 'Payments client PDF reports' },
-    { name: 'Numarrative', note: 'Whitelabel financial reporting' }
+    { name: 'SAV Chatbot', note: 'Render-hosted · embedded in client portals' },
+    { name: 'SAV Insights Hub', note: 'Payments client PDF reports' },
+    { name: 'Numarrative.com', note: 'Whitelabel financial reporting' }
   ];
 
   const DEFAULT_PAUSED_PROJECTS = [
     { name: 'ReconRep', note: 'Bugs unfixed, low team usage' },
-    { name: 'MarketingCampaignPlanner', note: 'Supabase inactive' },
-    { name: 'Foundational Framework', note: 'Supabase inactive' }
   ];
 
   const DEFAULT_ROUTINES = [
     'n8n backup (Sun 9am UTC) — weekly n8n state backup',
     'Monday utilization report — Teamwork time → Slack',
     'Daily sales call review — Supabase meetings → #cc-sales-mktg',
-    'Monthly project hygiene — audits Lovable, Supabase, memory, tasks',
+    'Monthly project hygiene — audits memory, tasks',
     'Daily vault git push — commits and pushes Claude Brain vault'
   ];
 
@@ -701,15 +699,9 @@
   ];
 
   const DEFAULT_LINKS = [
-    { label: 'C4 Diagnostic', url: 'https://c4score.com' },
-    { label: 'C4 App', url: 'https://app.c4score.com' },
+    { label: 'C4score.com', url: 'https://c4score.com' },
     { label: 'Numarrative', url: 'https://numarrative.com' },
-    { label: 'Render dashboard', url: 'https://dashboard.render.com' },
-    { label: 'Digital Ocean', url: 'https://cloud.digitalocean.com' },
-    { label: 'Supabase (cc-ai-ops)', url: 'https://supabase.com/dashboard/project/ynfasgydritmtuziqjqg' },
-    { label: 'Lovable', url: 'https://lovable.dev' },
-    { label: 'Claude (web)', url: 'https://claude.ai' },
-    { label: 'Claude Projects', url: 'https://claude.ai/projects' }
+    { label: 'CommandCenter', url: 'https://commandcenter.codeconspirators.com' },
   ];
 
   function newId() { return 'i_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
